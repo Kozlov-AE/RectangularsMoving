@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "RectangularsMoving.Shared.Protos";
+
+package board;
+
+message Board {
+  int32 Width = 1;
+  int32 Height = 2;
+  int32 RectsCount = 3;
+}

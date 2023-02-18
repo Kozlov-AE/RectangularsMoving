@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "RectangularsMoving.Shared.Protos";
+
+package rect;
+
+message Rect {
+  int32 Width = 1;
+  int32 Height = 2;
+  int32 X = 3;
+  int32 Y = 4;
+}
