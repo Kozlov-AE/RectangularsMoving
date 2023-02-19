@@ -5,9 +5,9 @@ import "rect.proto";
 
 option csharp_namespace = "RectangularsMoving.Shared.Protos";
 
-package config;
+package rectMoving;
 
-service Config {
+service RectMoving {
   rpc SetConfig (ConfigRequest) returns (stream rect.Rect);
 }
 

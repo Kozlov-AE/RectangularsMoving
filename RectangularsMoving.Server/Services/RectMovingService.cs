@@ -2,8 +2,8 @@ using Grpc.Core;
 using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
-    public class ConfigService : Config.ConfigBase {
-        public ConfigService() {
+    public class RectMovingService : RectMoving.RectMovingBase {
+        public RectMovingService() {
             
         }
         // Получаем экземпляр сервиса, который пробегается по хранилищу прямоугольников и меняет их координаты

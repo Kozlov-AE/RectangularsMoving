@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\config.proto" GrpcServices="Server" Link="Protos\config.proto" />
+    <Protobuf Include="..\RectangularsMoving.Shared\Protos\rectMoving.proto" GrpcServices="Server" Link="Protos\rectMoving.proto" />
     <Protobuf Include="..\RectangularsMoving.Shared\Protos\board.proto" GrpcServices="Server" Link="Protos\board.proto" />
     <Protobuf Include="..\RectangularsMoving.Shared\Protos\rect.proto" GrpcServices="Server" Link="Protos\rect.proto" />
 
