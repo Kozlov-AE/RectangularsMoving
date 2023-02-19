@@ -5,10 +5,23 @@ using RectangularsMoving.Shared.Models;
 namespace RectangularsMoving.Server.Services {
     public class MovingService {
         public event Action<IRect> RectProcessed;
-        public void ProcessCollection(IEnumerable<RectRecord> collection, int tCount, byte maxValue, int height, int width) {
+        public Task ProcessCollection(IEnumerable<RectRecord> collection, int tCount, byte maxValue, int height, int width) {
             Parallel.ForEach(collection, new ParallelOptions(){MaxDegreeOfParallelism = tCount}, item => {
                 MoveRect(item, maxValue, height, width);
             });
+            return Task.CompletedTask;
+        }
+        public Task ProcessCollectionSemaphoreSlim(IEnumerable<RectRecord> collection, int tCount, byte maxValue, int height, int width) {
+            SemaphoreSlim semaphore = new SemaphoreSlim(0, tCount);
+            List<Task> tasks = new (collection.Count());
+            foreach (var rect in collection) {
+                semaphore.Wait();
+                var task = Task.Run(() => MoveRect(rect, maxValue, height, width));
+                semaphore.Release();
+            }
+
+            Task.WhenAll(tasks);
+            return Task.CompletedTask;
         }
 
         public IRect MoveRect(IRect rect, byte maxValue, int height, int width) {
