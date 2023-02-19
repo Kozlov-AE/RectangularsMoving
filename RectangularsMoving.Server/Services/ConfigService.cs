@@ -3,6 +3,9 @@ using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
     public class ConfigService : Config.ConfigBase {
+        public ConfigService() {
+            
+        }
         // Получаем экземпляр сервиса, который пробегается по хранилищу прямоугольников и меняет их координаты
         public override Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
             // Иду в фабрику прямоугольников, передаю туда параметры
