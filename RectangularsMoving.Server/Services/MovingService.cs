@@ -31,84 +31,84 @@ namespace RectangularsMoving.Server.Services {
             int x = 0;
             int y = 0;
             switch (rect.Direction) {
-                case MovingDirection.TopLeft:
+                case MoveDirection.TopLeft:
                     x = rect.X - move;
                     y = rect.Y - move;
                     if (x < 0) {
                         y -= x;
                         x = 0;
-                        result.Direction = MovingDirection.TopRight;
+                        result.Direction = MoveDirection.TopRight;
                     }
 
                     if (y < 0) {
                         x -= y;
                         y = 0;
-                        result.Direction = MovingDirection.BottomLeft;
+                        result.Direction = MoveDirection.BottomLeft;
                     }
 
                     if (x == 0 && y == 0) {
-                        result.Direction = MovingDirection.BottomRight;
+                        result.Direction = MoveDirection.BottomRight;
                     }
                     break;
-                case MovingDirection.BottomLeft:
+                case MoveDirection.BottomLeft:
                     x = rect.X - move;
                     y = rect.Y + move;
                     if (x < 0) {
                         y -= x;
                         x = 0;
-                        result.Direction = MovingDirection.BottomRight;
+                        result.Direction = MoveDirection.BottomRight;
                     }
 
                     if ((y + rect.Height) > height) {
                         var deltaY = y - height - rect.Height;
                         y = height - rect.Height;
                         x -= deltaY;
-                        result.Direction = MovingDirection.TopLeft;
+                        result.Direction = MoveDirection.TopLeft;
                     }
 
                     if (x == 0 && y == height - rect.Height) {
-                        result.Direction = MovingDirection.TopRight;
+                        result.Direction = MoveDirection.TopRight;
                     }
                     break;
-                case MovingDirection.TopRight:
+                case MoveDirection.TopRight:
                     x = rect.X + move;
                     y = rect.Y - move;
                     if (y < 0) {
                         x -= y;
                         y = 0;
-                        result.Direction = MovingDirection.BottomRight;
+                        result.Direction = MoveDirection.BottomRight;
                     }
 
                     if ((x + rect.Width) > width) {
                         var deltaX = x - width - rect.Width;
                         x = width - rect.Width;
                         y -= deltaX;
-                        result.Direction = MovingDirection.TopLeft;
+                        result.Direction = MoveDirection.TopLeft;
                     }
 
                     if (x == width - rect.Width && y == 0) {
-                        result.Direction = MovingDirection.BottomLeft;
+                        result.Direction = MoveDirection.BottomLeft;
                     }
                     break;
-                case MovingDirection.BottomRight:
+                case MoveDirection.BottomRight:
                     x = rect.X + move;
-                    y = rect.Y - move;
+                    y = rect.Y + move;
                     if ((x + rect.Width) > width) {
                         var deltaX = x - width - rect.Width;
                         x = width - rect.Width;
                         y -= deltaX;
-                        result.Direction = MovingDirection.BottomLeft;
+                        result.Direction = MoveDirection.BottomLeft;
                     }
 
                     if ((y + rect.Height) > height) {
                         var deltaY = y - height - rect.Height;
                         y = height - rect.Height;
                         x -= deltaY;
-                        result.Direction = MovingDirection.TopRight;
+                        result.Direction = MoveDirection.TopRight;
                     }
 
                     if (x == width - rect.Width && y == height - rect.Height) {
-                        result.Direction = MovingDirection.TopLeft;
+                        result.Direction = MoveDirection.TopLeft;
                     }
                     break;
             }

@@ -8,6 +8,6 @@ namespace InMemoryRepository {
         public int Width { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public MovingDirection Direction { get; set; }
+        public MoveDirection Direction { get; set; }
     }
 }

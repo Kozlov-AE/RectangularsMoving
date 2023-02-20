@@ -1,5 +1,5 @@
 namespace RectangularsMoving.Shared.Enums {
-    public enum MovingDirection {
+    public enum MoveDirection {
         TopLeft, TopRight, BottomRight, BottomLeft
     }
 }

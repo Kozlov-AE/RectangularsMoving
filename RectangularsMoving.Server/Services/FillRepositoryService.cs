@@ -8,7 +8,7 @@ namespace RectangularsMoving.Server.Services {
         
         public event Action<IRect> NewRectAdded;
         
-        public void FillRepository(int count,int height, int width) {
+        public async Task FillRepository(int count,int height, int width) {
             var minH = height / 50;
             var minW = width / 50;
             var maxH = height / 30;
@@ -24,9 +24,12 @@ namespace RectangularsMoving.Server.Services {
                     Height = h,
                     X = rand.Next(width),
                     Y = rand.Next(height),
-                    Direction = (MovingDirection)direct
+                    Direction = (MoveDirection)direct
                 };
-                _repo.AddOrUpdateAsync(rect);
+                var repoRect = await _repo.AddOrUpdateAsync(rect);
+                if (repoRect != null) {
+                    NewRectAdded?.Invoke(repoRect);
+                }
             }
         }
     }

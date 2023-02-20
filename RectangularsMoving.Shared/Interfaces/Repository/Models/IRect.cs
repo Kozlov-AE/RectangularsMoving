@@ -7,6 +7,6 @@ namespace RectangularsMoving.Shared.Interfaces.Repository.Models {
         int Width { get; set; }
         int X { get; set; }
         int Y { get; set; }
-        MovingDirection Direction { get; set; }
+        MoveDirection Direction { get; set; }
     }
 }
