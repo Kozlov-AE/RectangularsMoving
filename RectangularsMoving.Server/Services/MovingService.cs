@@ -1,30 +1,15 @@
-using RectangularsMoving.Shared.Enums;
-using RectangularsMoving.Shared.Interfaces.Repository.Models;
-using RectangularsMoving.Shared.Models;
+using RectangularsMoving.Server.Enums;
+using RectangularsMoving.Server.Models;
 
 namespace RectangularsMoving.Server.Services {
     public class MovingService {
-        public event Action<IRect> RectProcessed;
-        public Task ProcessCollection(IEnumerable<RectRecord> collection, int tCount, byte maxValue, int height, int width) {
-            Parallel.ForEach(collection, new ParallelOptions(){MaxDegreeOfParallelism = tCount}, item => {
-                MoveRect(item, maxValue, height, width);
-            });
-            return Task.CompletedTask;
-        }
-        public Task ProcessCollectionSemaphoreSlim(IEnumerable<RectRecord> collection, int tCount, byte maxValue, int height, int width) {
-            SemaphoreSlim semaphore = new SemaphoreSlim(0, tCount);
-            List<Task> tasks = new (collection.Count());
-            foreach (var rect in collection) {
-                semaphore.Wait();
-                var task = Task.Run(() => MoveRect(rect, maxValue, height, width));
-                semaphore.Release();
-            }
+        private ILogger<MovingService> _logger;
 
-            Task.WhenAll(tasks);
-            return Task.CompletedTask;
+        public MovingService(ILogger<MovingService> logger) {
+            _logger = logger;
         }
 
-        public IRect MoveRect(IRect rect, byte maxValue, int height, int width) {
+        public RectWithDirection MoveRect(ref RectWithDirection rect, byte maxValue, int height, int width) {
             var result = rect;
             Random random = new Random();
             var move = random.Next(maxValue);
@@ -114,7 +99,6 @@ namespace RectangularsMoving.Server.Services {
             }
             result.X = x;
             result.Y = y;
-            RectProcessed?.Invoke(result);
             return result;
         }
     }

@@ -1,35 +1,49 @@
 using Grpc.Core;
-using RectangularsMoving.Shared.Interfaces.Repository;
+using RectangularsMoving.Server.Models;
 using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
     public class RectMovingService : RectMoving.RectMovingBase {
-        private readonly FillRepositoryService _fillService;
+        private readonly RectGeneratorService _generatorService;
         private readonly MovingService _movingService;
-        private List<Rect> _collection;
-        public RectMovingService(FillRepositoryService fillService, MovingService movingService, IRectRepository repo) {
-            _fillService = fillService;
+        private readonly ILogger<RectMovingService> _logge;
+        private List<RectWithDirection> _collection;
+        private readonly object _collectionLock = new object();
+        public RectMovingService(RectGeneratorService generatorService, MovingService movingService) {
+            _generatorService = generatorService;
             _movingService = movingService;
-            _repo = repo;
         }
 
         public override async Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
-            _collection = new List<Rect>(request.Board.RectsCount);
+            _collection = new List<RectWithDirection>(request.Board.RectsCount);
+            _generatorService.NewRectGenerated += r => Task.Run(async () => {
+                lock (_collectionLock) {
+                    _collection.Add(r);
+                }
+                await responseStream.WriteAsync(r.Map());
+            });
+
+            SemaphoreSlim semaphore = new SemaphoreSlim(request.TasksCount);
             
-            var fillTask = Task.Run(() => _fillService.GenerateRects(request.TasksCount, request.Board.Height, request.Board.Width));
-            _fillService.NewRectAdded += rect => {
-                await responseStream.WriteAsync(rect)
-            };
+            Task.Run(() => _generatorService.GenerateRects(semaphore, request.Board.RectsCount, request.Board.Height, request.Board.Width));
+            
             while (true) {
-                var coll = await _repo.GetAllAsync();
+                int count;
+                lock (_collectionLock) {
+                    count = _collection.Count;
+                }
+                for (int i = 0; i < count; i++) {
+                    var item = _collection[i];
+                    Task.Run(async () => {
+                        semaphore.Wait();
+                        lock (_collectionLock) {
+                            _movingService.MoveRect(ref item, 20, request.Board.Height, request.Board.Width);
+                        }
+
+                        await responseStream.WriteAsync(item.Map());
+                    });
+                }
             }
-            // Иду в фабрику прямоугольников, передаю туда параметры
-            // Подписываюсь на событие создания нового прямоугольника
-            // Как только производится новый прямоугольник, скидываю его в свое хранилище
-            // Отправляю его на клиент (пишу в responseStream)
-            // Если сервис изменения координат не запущен, то запускаю его, передавая ссылку на хранилище и подписываюсь на изменения координат
-            // Получаю новые координаты -> отправляю их клиенту
-            
         }
     }
 }
