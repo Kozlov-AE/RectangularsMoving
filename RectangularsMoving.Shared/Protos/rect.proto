@@ -9,4 +9,5 @@ message Rect {
   int32 Height = 2;
   int32 X = 3;
   int32 Y = 4;
+  int32 id = 5;
 }

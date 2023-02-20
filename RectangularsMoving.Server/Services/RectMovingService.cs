@@ -6,8 +6,7 @@ namespace RectangularsMoving.Server.Services {
     public class RectMovingService : RectMoving.RectMovingBase {
         private readonly FillRepositoryService _fillService;
         private readonly MovingService _movingService;
-        private readonly IRectRepository _repo;
-        
+        private List<Rect> _collection;
         public RectMovingService(FillRepositoryService fillService, MovingService movingService, IRectRepository repo) {
             _fillService = fillService;
             _movingService = movingService;
@@ -15,7 +14,9 @@ namespace RectangularsMoving.Server.Services {
         }
 
         public override async Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
-            var fillTask = Task.Run(() => _fillService.FillRepository(request.TasksCount, request.Board.Height, request.Board.Width));
+            _collection = new List<Rect>(request.Board.RectsCount);
+            
+            var fillTask = Task.Run(() => _fillService.GenerateRects(request.TasksCount, request.Board.Height, request.Board.Width));
             _fillService.NewRectAdded += rect => {
                 await responseStream.WriteAsync(rect)
             };
