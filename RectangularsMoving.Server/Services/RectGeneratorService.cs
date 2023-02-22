@@ -19,25 +19,24 @@ namespace RectangularsMoving.Server.Services {
             var maxW = width / 30;
             List<Task> tasks = new List<Task>(count);
             for (int i = 0; i < count; i++) {
+                var i1 = i;
                 tasks.Add(Task.Run(() => {
-                    _logger.LogInformation($"Start creating rect with ID = {i + 1}, wait for semaphore.");
+                    _logger.LogInformation($"Start creating rect with ID = {i1 + 1}, wait for semaphore.");
                     semaphore.Wait();
                     var rect = new RectWithDirection() {
-                        Id = i + 1,
+                        Id = i1 + 1,
                         Width = Random.Shared.Next(minW, maxW),
                         Height = Random.Shared.Next(minH, maxH),
                         X = Random.Shared.Next(width),
                         Y = Random.Shared.Next(height),
                         Direction = (MoveDirection)Random.Shared.Next(3)
                     };
-                    _logger.BeginScope(
+                    _logger.LogInformation(
                         $"Rect ({rect.Id}) generated: H= {rect.Height}, W= {rect.Width}, X= {rect.X}, Y= {rect.Y}");
                     NewRectGenerated?.Invoke(rect);
-                    semaphore.Release();
                 }));
+                semaphore.Release();
             }
-
-            Task.WaitAll(tasks.ToArray());
         }
     }
 }
