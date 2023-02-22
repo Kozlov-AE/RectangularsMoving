@@ -7,15 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\rectMoving.proto" GrpcServices="Server" Link="Protos\rectMoving.proto" />
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\board.proto" GrpcServices="Server" Link="Protos\board.proto" />
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\rect.proto" GrpcServices="Server" Link="Protos\rect.proto" />
+    <Protobuf Include="..\Protos\rectMoving.proto" GrpcServices="Server" Link="Protos\rectMoving.proto" />
+    <Protobuf Include="..\Protos\board.proto" GrpcServices="Server" Link="Protos\board.proto" />
+    <Protobuf Include="..\Protos\rect.proto" GrpcServices="Server" Link="Protos\rect.proto" />
 
-    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\RectangularsMoving.Shared\RectangularsMoving.Shared.csproj" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
   </ItemGroup>
 
 </Project>

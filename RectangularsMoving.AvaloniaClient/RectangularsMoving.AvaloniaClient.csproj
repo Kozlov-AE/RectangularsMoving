@@ -5,7 +5,7 @@
   <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
     <TrimMode>copyused</TrimMode>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -38,10 +38,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\rectMoving.proto" GrpcServices="Client" Link="Protos\rectMoving.proto" />
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\board.proto" GrpcServices="Client" Link="Protos\board.proto" />
-    <Protobuf Include="..\RectangularsMoving.Shared\Protos\rect.proto" GrpcServices="Client" Link="Protos\rect.proto" />
-
-    <ProjectReference Include="..\RectangularsMoving.Shared\RectangularsMoving.Shared.csproj" />
+    <Protobuf Include="..\Protos\rectMoving.proto" GrpcServices="Client" Link="Protos\rectMoving.proto" />
+    <Protobuf Include="..\Protos\board.proto" GrpcServices="Client" Link="Protos\board.proto" />
+    <Protobuf Include="..\Protos\rect.proto" GrpcServices="Client" Link="Protos\rect.proto" />
   </ItemGroup>
 </Project>

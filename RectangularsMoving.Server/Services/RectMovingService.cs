@@ -9,13 +9,14 @@ namespace RectangularsMoving.Server.Services {
         private readonly ILogger<RectMovingService> _logger;
         private List<RectWithDirection> _collection;
         private readonly object _collectionLock = new object();
+        private readonly object _sendMessageLock = new object();
         public RectMovingService(RectGeneratorService generatorService, MovingService movingService, ILogger<RectMovingService> logger) {
             _generatorService = generatorService;
             _movingService = movingService;
             _logger = logger;
         }
 
-        public override Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
+        public override async Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
             var semaphore = new SemaphoreSlim(request.TasksCount);
             try {
                 _logger.LogInformation("Received ConfigRequest");
@@ -28,26 +29,34 @@ namespace RectangularsMoving.Server.Services {
                 });
 
 
-                Task.Run(() => _generatorService.GenerateRects(semaphore, request.Board.RectsCount,
+                await Task.Run(() => _generatorService.GenerateRects(semaphore, request.Board.RectsCount,
                     request.Board.Height, request.Board.Width));
 
+                List<Task> tasks = new List<Task>(request.Board.RectsCount);
                 while (true) {
                     int count;
                     lock (_collectionLock) {
                         count = _collection.Count;
                     }
 
+
                     for (int i = 0; i < count; i++) {
                         var item = _collection[i];
-                        Task.Run(async () => {
+                        tasks.Add(Task.Run(async () => {
                             await semaphore.WaitAsync();
                             lock (_collectionLock) {
                                 _movingService.MoveRect(ref item, 20, request.Board.Height, request.Board.Width);
                             }
-                            await responseStream.WriteAsync(item.Map());
-                        });
-                        semaphore.Release();
+
+                            lock (_sendMessageLock) {
+                                responseStream.WriteAsync(item.Map()).GetAwaiter().GetResult();
+                            }
+                            semaphore.Release();
+                        }));
                     }
+
+                    Task.WaitAll(tasks.ToArray());
+                    tasks.Clear();
                 }
 
             }
@@ -55,7 +64,6 @@ namespace RectangularsMoving.Server.Services {
                 _logger.LogError(ex.Message, ex);
                 semaphore.Release();
             }
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "board.proto";
+import "rect.proto";
+
+option csharp_namespace = "RectangularsMoving.Shared.Protos";
+
+package rectMoving;
+
+service RectMoving {
+  rpc SetConfig (ConfigRequest) returns (stream rect.Rect);
+}
+
+message ConfigRequest {
+  board.Board Board = 1;
+  int32 TasksCount = 2;
+}
