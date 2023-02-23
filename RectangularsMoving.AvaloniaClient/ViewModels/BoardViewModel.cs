@@ -25,20 +25,20 @@ namespace RectangularsMoving.AvaloniaClient.ViewModels {
             Rects = new ObservableCollection<RectViewModel>();
         }
         public void SetRectCoords(Rect rect) {
-            lock (_rectsLocker) {
-                try {
+            try {
+                lock (_rectsLocker) {
                     var currentRect = Rects.FirstOrDefault(r => r.Id == rect.Id);
                     if (currentRect == null) {
                         var newRect = rect.Map("#229954");
-                        Dispatcher.UIThread.Post(() => Rects.Add(newRect));
+                        Rects.Add(newRect);
                     }
                     else {
                         Dispatcher.UIThread.Post(() => currentRect.SetCoordinates(rect.X, rect.Y));
                     }
                 }
-                catch (Exception ex) {
-                    Debug.WriteLine(ex.Message);
-                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
             }
         }
     }
