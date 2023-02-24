@@ -29,6 +29,7 @@ namespace RectangularsMoving.AvaloniaClient.ViewModels
                     var client = new RectMoving.RectMovingClient(channel);
                     var request = new ConfigRequest();
                     request.TasksCount = vm.TaskCount;
+                    request.TaskDelay = vm.TaskDelay;
                     request.Board = new Board() {
                         Height = vm.BoardHeight, Width = vm.BoardWidth, RectsCount = vm.RectCount
                     };

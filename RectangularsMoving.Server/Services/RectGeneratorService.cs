@@ -15,8 +15,8 @@ namespace RectangularsMoving.Server.Services {
         public async Task GenerateRects(SemaphoreSlim semaphore, int count,int height, int width) {
             var minH = height / 50;
             var minW = width / 50;
-            var maxH = height / 30;
-            var maxW = width / 30;
+            var maxH = height / 10;
+            var maxW = width / 10;
             List<Task> tasks = new List<Task>(count);
             for (int i = 0; i < count; i++) {
                 var i1 = i;

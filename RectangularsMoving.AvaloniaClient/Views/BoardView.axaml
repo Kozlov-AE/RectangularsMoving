@@ -25,15 +25,9 @@
                 <Canvas  />
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
-        <!-- <ItemsControl.Styles> -->
-        <!--     <Style Selector="ItemsControl ContentPresenter"> -->
-        <!--         <Setter Property="Canvas.Left" Value="{Binding X}" /> -->
-        <!--         <Setter Property="Canvas.Top" Value="{Binding Y}" /> -->
-        <!--     </Style> -->
-        <!-- </ItemsControl.Styles> -->
         <ItemsControl.DataTemplates>
             <DataTemplate DataType="{x:Type viewModels:RectViewModel}">
-                <Rectangle Stroke="Black" StrokeThickness="1" Height="{Binding Height}" Width="{Binding Width}" />
+                <Rectangle Stroke="{Binding Color}" StrokeThickness="1" Height="{Binding Height}" Width="{Binding Width}" />
             </DataTemplate>
         </ItemsControl.DataTemplates>
     </ItemsControl>

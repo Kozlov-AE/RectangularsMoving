@@ -13,6 +13,12 @@
             <Setter Property="Height" Value="50" />
             <Setter Property="Width" Value="50" />
         </Style>
+        <Style Selector="StackPanel.horizValueBlock">
+            <Setter Property="Spacing" Value="20"/>
+        </Style>
+        <Style Selector="StackPanel.horizValueBlock > NumericUpDown">
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
     </UserControl.Styles>
     <DockPanel LastChildFill="True">
         <StackPanel Spacing="20"
@@ -46,6 +52,10 @@
             <StackPanel Classes="horizValueBlock">
                 <TextBlock Text="Task count" />
                 <NumericUpDown Minimum="1" Value="{Binding TaskCount}" />
+            </StackPanel>
+            <StackPanel Classes="horizValueBlock">
+                <TextBlock Text="Task delay (for imitation a hard working)" />
+                <NumericUpDown Minimum="0" Value="{Binding TaskDelay}" />
             </StackPanel>
         </StackPanel>
     </DockPanel>

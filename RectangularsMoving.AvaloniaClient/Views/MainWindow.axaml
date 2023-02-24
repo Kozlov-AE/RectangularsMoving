@@ -6,10 +6,10 @@
 		xmlns:views="clr-namespace:RectangularsMoving.AvaloniaClient.Views"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="RectangularsMoving.AvaloniaClient.Views.MainWindow"
-		Width="{Binding BoardVm.Width}"
-		Height="{Binding BoardVm.Height}"
+		SizeToContent="WidthAndHeight"
 		Icon="/Assets/avalonia-logo.ico"
-		Title="RectangularsMoving.AvaloniaClient">
+		Title="RectangularsMoving.AvaloniaClient"
+		Padding="15">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
@@ -18,8 +18,9 @@
 		<views:SettingsView 
 			IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
 			DataContext="{Binding SettingsVm}"/>
-		<views:BoardView
-			IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}"
-			DataContext="{Binding BoardVm}"/>
+		<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
+			<views:BoardView
+				DataContext="{Binding BoardVm}"/>
+		</Border>
 	</Panel>
 </Window>

@@ -29,7 +29,8 @@ namespace RectangularsMoving.AvaloniaClient.ViewModels {
                 lock (_rectsLocker) {
                     var currentRect = Rects.FirstOrDefault(r => r.Id == rect.Id);
                     if (currentRect == null) {
-                        var newRect = rect.Map("#229954");
+                        var color = $"#{Random.Shared.Next(0x808080) & 0x8A8A8A:X6}";
+                        var newRect = rect.Map(color);
                         Rects.Add(newRect);
                     }
                     else {

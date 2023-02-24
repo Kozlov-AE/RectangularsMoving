@@ -6,12 +6,14 @@ namespace RectangularsMoving.AvaloniaClient.ViewModels {
         [ObservableProperty] private int _boardHeight;
         [ObservableProperty] private int _boardWidth;
         [ObservableProperty] private int _taskCount;
+        [ObservableProperty] private int _taskDelay;
 
         public SettingsViewModel() {
             RectCount = 100;
             BoardHeight = 500;
             BoardWidth = 500;
             TaskCount = 100;
+            TaskDelay = 5;
         }
     }
 }

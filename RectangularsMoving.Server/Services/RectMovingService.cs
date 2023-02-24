@@ -1,4 +1,5 @@
 using Grpc.Core;
+using Microsoft.VisualBasic;
 using RectangularsMoving.Server.Models;
 using RectangularsMoving.Shared.Protos;
 
@@ -34,29 +35,37 @@ namespace RectangularsMoving.Server.Services {
 
                 List<Task> tasks = new List<Task>(request.Board.RectsCount);
                 while (true) {
-                    int count;
-                    lock (_collectionLock) {
-                        count = _collection.Count;
-                    }
-
-
+                    var opId = Guid.NewGuid();
+                    _logger.LogInformation($"Start moving in collection ({opId})");
+                    var count = _collection.Count;
                     for (int i = 0; i < count; i++) {
                         var item = _collection[i];
                         tasks.Add(Task.Run(async () => {
                             await semaphore.WaitAsync();
-                            lock (_collectionLock) {
-                                _movingService.MoveRect(ref item, 20, request.Board.Height, request.Board.Width);
+                            try {
+                                lock (_collectionLock) {
+                                    _movingService.MoveRect(ref item, 30, request.Board.Height, request.Board.Width);
+                                }
+
+                                lock (_sendMessageLock) {
+                                    responseStream.WriteAsync(item.Map());
+                                }
+
+                                await Task.Delay(request.TaskDelay);
+                            }
+                            catch (Exception e) {
+                                _logger.LogError(e.Message);
+                            }
+                            finally {
+                                semaphore.Release();
                             }
 
-                            lock (_sendMessageLock) {
-                                responseStream.WriteAsync(item.Map()).GetAwaiter().GetResult();
-                            }
-                            semaphore.Release();
                         }));
                     }
 
                     Task.WaitAll(tasks.ToArray());
                     tasks.Clear();
+                    _logger.LogInformation($"Finished all tasks in moving in collection ({opId})");
                 }
 
             }
