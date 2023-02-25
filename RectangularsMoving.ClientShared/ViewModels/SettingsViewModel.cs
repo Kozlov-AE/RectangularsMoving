@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace RectangularsMoving.AvaloniaClient.ViewModels {
+namespace RectangularsMoving.ClientShared.ViewModels {
     public partial class SettingsViewModel : ObservableObject {
         [ObservableProperty] private int _rectCount;
         [ObservableProperty] private int _boardHeight;

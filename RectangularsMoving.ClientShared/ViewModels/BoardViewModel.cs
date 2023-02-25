@@ -1,28 +1,27 @@
-﻿using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RectangularsMoving.Shared.Protos;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RectangularsMoving.AvaloniaClient.ViewModels {
+namespace RectangularsMoving.ClientShared.ViewModels {
     public partial class BoardViewModel : ObservableObject {
+        private readonly IAppManager _appManager;
+        
         private readonly object _rectsLocker;
         [ObservableProperty] private int _width;
         [ObservableProperty] private int _height;
-        [ObservableProperty] private int _rectsCount;
         [ObservableProperty] private ObservableCollection<RectViewModel> _rects;
-        
-        public BoardViewModel(int width, int height, int rectsCount) {
+
+
+        public BoardViewModel(IAppManager appManager) {
+            _appManager = appManager;
             _rectsLocker = new object();
+            Rects = new ObservableCollection<RectViewModel>();
+        }
+
+        public void SetBoardsProperties(int width, int height) {
             Width = width;
             Height = height;
-            RectsCount = rectsCount;
-            Rects = new ObservableCollection<RectViewModel>();
         }
         public void SetRectCoords(Rect rect) {
             try {
@@ -34,7 +33,10 @@ namespace RectangularsMoving.AvaloniaClient.ViewModels {
                         Rects.Add(newRect);
                     }
                     else {
-                        Dispatcher.UIThread.Post(() => currentRect.SetCoordinates(rect.X, rect.Y));
+                            _appManager.RunInUiThreadAsync(() => {
+                                currentRect.SetCoordinates(rect.X, rect.Y);
+                                return Task.CompletedTask;
+                        });
                     }
                 }
             }

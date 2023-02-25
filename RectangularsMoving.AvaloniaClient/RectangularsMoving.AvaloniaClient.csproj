@@ -27,7 +27,10 @@
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview5" />
     <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0-preview5" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+    <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
+
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.1.23110.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.1.23110.8" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.22.0" />
@@ -41,5 +44,8 @@
     <Protobuf Include="..\Protos\rectMoving.proto" GrpcServices="Client" Link="Protos\rectMoving.proto" />
     <Protobuf Include="..\Protos\board.proto" GrpcServices="Client" Link="Protos\board.proto" />
     <Protobuf Include="..\Protos\rect.proto" GrpcServices="Client" Link="Protos\rect.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RectangularsMoving.ClientShared\RectangularsMoving.ClientShared.csproj" />
   </ItemGroup>
 </Project>
