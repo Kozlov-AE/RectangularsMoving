@@ -10,6 +10,7 @@ namespace RectangularsMoving.Server.Services {
         }
 
         public void MoveRect(ref RectWithDirection rect, byte maxValue, int height, int width) {
+            rect.IsReflectioning = false;
             Random random = new Random();
             var move = random.Next(maxValue);
             int x = 0;
@@ -102,6 +103,8 @@ namespace RectangularsMoving.Server.Services {
                     }
                     break;
             }
+
+            if (xRefl || yRefl) rect.IsReflectioning = true;
             rect.X = x;
             rect.Y = y;
         }

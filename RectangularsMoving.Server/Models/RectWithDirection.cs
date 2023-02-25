@@ -9,6 +9,6 @@ namespace RectangularsMoving.Server.Models {
         public int X { get; set; }
         public int Y { get; set; }
         public MoveDirection Direction { get; set; }
-
+        public bool IsReflectioning { get; set; }
     }
 }

@@ -10,4 +10,5 @@ message Rect {
   int32 X = 3;
   int32 Y = 4;
   int32 id = 5;
+  bool IsReflectioning = 6;
 }

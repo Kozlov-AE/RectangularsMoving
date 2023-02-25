@@ -10,6 +10,7 @@ namespace RectangularsMoving.Server.Services {
                 Y = source.Y,
                 Width = source.Width,
                 Height = source.Height,
+                IsReflectioning = source.IsReflectioning
             };
         }
     }
