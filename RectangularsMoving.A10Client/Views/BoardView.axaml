@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:RectangularsMoving.ClientShared.ViewModels;assembly=RectangularsMoving.ClientShared"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RectangularsMoving.A10Client.Views.BoardView">
+    <Design.DataContext>
+        <viewModels:BoardViewModel/>
+    </Design.DataContext>
+    <UserControl.Styles>
+        <Style Selector="ItemsControl ContentPresenter">
+            <Setter Property="Canvas.Left" Value="{Binding X}" />
+            <Setter Property="Canvas.Top" Value="{Binding Y}" />
+        </Style>
+        <Style Selector="Canvas">
+            <Setter Property="Height" Value="{Binding Height}" />
+            <Setter Property="Width" Value="{Binding Width}" />
+        </Style>
+    </UserControl.Styles>
+
+    <ItemsControl Items="{Binding Rects}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Canvas  />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.DataTemplates>
+            <DataTemplate DataType="{x:Type viewModels:RectViewModel}">
+                <Rectangle Stroke="{Binding Color}" StrokeThickness="1" Height="{Binding Height}" Width="{Binding Width}" />
+            </DataTemplate>
+        </ItemsControl.DataTemplates>
+    </ItemsControl>
+</UserControl>

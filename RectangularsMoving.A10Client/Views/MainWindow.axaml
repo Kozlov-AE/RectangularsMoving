@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:views="clr-namespace:RectangularsMoving.A10Client.Views"
+		xmlns:viewModels="clr-namespace:RectangularsMoving.ClientShared.ViewModels;assembly=RectangularsMoving.ClientShared"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="RectangularsMoving.A10Client.Views.MainWindow"
+		SizeToContent="WidthAndHeight"
+		Title="RectangularsMoving.A10Client"
+		Padding="15">
+
+	<Design.DataContext>
+		<viewModels:MainWindowViewModel/>
+	</Design.DataContext>
+	<Panel HorizontalAlignment="Center" VerticalAlignment="Center">
+		<views:SettingsView 
+			IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
+			DataContext="{Binding SettingsVm}"/>
+		<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
+			<views:BoardView
+				DataContext="{Binding BoardVm}"/>
+		</Border>
+	</Panel>
+</Window>
