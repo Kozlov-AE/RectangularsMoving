@@ -20,6 +20,7 @@ namespace RectangularsMoving.A10Client {
                 var vm = _services.GetRequiredService<MainWindowViewModel>();
                 desktop.MainWindow = new MainWindow();
                 desktop.MainWindow.DataContext = vm;
+                desktop.Exit += (sender, args) => vm.Stop();
             }
 
             base.OnFrameworkInitializationCompleted();

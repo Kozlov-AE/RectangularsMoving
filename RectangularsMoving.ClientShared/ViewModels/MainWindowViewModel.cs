@@ -89,7 +89,7 @@ namespace RectangularsMoving.ClientShared.ViewModels
             }
         }
         [RelayCommand]
-        private void Stop() {
+        public void Stop() {
             try{
                 _client.Stop(new Empty(), _headers);
             }

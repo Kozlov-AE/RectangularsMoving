@@ -27,6 +27,9 @@ namespace RectangularsMoving.AvaloniaClient
                 {
                     DataContext = vm,
                 };
+                desktop.Exit += (sender, args) => {
+                    vm.Stop();
+                };
             }
 
             base.OnFrameworkInitializationCompleted();
