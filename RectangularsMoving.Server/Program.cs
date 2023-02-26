@@ -1,3 +1,4 @@
+using Grpc.Core;
 using RectangularsMoving.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,11 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddTransient<RectGeneratorService>();
 builder.Services.AddTransient<MovingService>();
+builder.Services.AddSingleton<ClientsWorkHolder>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<RectMovingService>();
+app.MapGrpcService<Rpc_RectMovingService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.Run();

@@ -1,26 +1,41 @@
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using RectangularsMoving.Protos;
 using RectangularsMoving.Server.Models;
 
 namespace RectangularsMoving.Server.Services {
-    public class RectMovingService : RectMoving.RectMovingBase {
+    public class Rpc_RectMovingService : RectMoving.RectMovingBase {
         private readonly RectGeneratorService _generatorService;
         private readonly MovingService _movingService;
-        private readonly ILogger<RectMovingService> _logger;
+        private readonly ClientsWorkHolder _workHolder;
+        private readonly ILogger<Rpc_RectMovingService> _logger;
         private List<RectWithDirection> _collection;
         private readonly object _collectionLock = new object();
         private readonly object _sendMessageLock = new object();
-        public RectMovingService(RectGeneratorService generatorService, MovingService movingService, ILogger<RectMovingService> logger) {
+        public Rpc_RectMovingService(RectGeneratorService generatorService, 
+            MovingService movingService, 
+            ILogger<Rpc_RectMovingService> logger, 
+            ClientsWorkHolder workHolder) {
             _generatorService = generatorService;
             _movingService = movingService;
             _logger = logger;
+            _workHolder = workHolder;
         }
 
-        public override async Task SetConfig(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
+        public override async Task StartAsync(ConfigRequest request, IServerStreamWriter<Rect> responseStream, ServerCallContext context) {
             var semaphore = new SemaphoreSlim(request.TasksCount);
+            var clientId = context.RequestHeaders.GetValue("ClientId");
+            if (string.IsNullOrEmpty(clientId)) {
+                _logger.LogError("Client id is null or empty, return from the start method");
+                return;
+            }
             try {
                 _logger.LogInformation("Received ConfigRequest");
                 _collection = new List<RectWithDirection>(request.Board.RectsCount);
+
+                
+                _workHolder.ClientStart(clientId);
+                
                 _generatorService.NewRectGenerated += r => Task.Run(async () => {
                     _collection.Add(r);
                     _logger.LogInformation($"New rect ({r.Id}) added to collection");
@@ -33,7 +48,7 @@ namespace RectangularsMoving.Server.Services {
                     request.Board.Height, request.Board.Width));
 
                 List<Task> tasks = new List<Task>(request.Board.RectsCount);
-                while (true) {
+                while (_workHolder.CheckIfClientIsWorking(clientId)) {
                     var opId = Guid.NewGuid();
                     _logger.LogInformation($"Start moving in collection ({opId})");
                     var count = _collection.Count;
@@ -44,9 +59,6 @@ namespace RectangularsMoving.Server.Services {
                             try {
                                 lock (_collectionLock) {
                                     _movingService.MoveRect(ref item, 30, request.Board.Height, request.Board.Width);
-                                }
-
-                                lock (_sendMessageLock) {
                                     responseStream.WriteAsync(item.Map());
                                 }
 
@@ -71,8 +83,13 @@ namespace RectangularsMoving.Server.Services {
             catch (Exception ex) {
                 _logger.LogError(ex.Message, ex);
                 semaphore.Release();
+                _workHolder.ClientStop(clientId);
             }
         }
-        
+
+        public override Task<Empty> Stop(Empty request, ServerCallContext context) {
+            _workHolder.ClientStop(context.RequestHeaders.GetValue("ClientId"));
+            return Task.FromResult(new Empty());
+        }
     }
 }

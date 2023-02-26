@@ -10,10 +10,15 @@
 		Icon="/Assets/avalonia-logo.ico"
 		Title="RectangularsMoving.AvaloniaClient"
 		Padding="15">
-
 	<Design.DataContext>
 		<viewModels:MainWindowViewModel/>
 	</Design.DataContext>
+	<Window.Styles>
+		<Style Selector="Button.button">
+			<Setter Property="Height" Value="50" />
+			<Setter Property="Width" Value="50" />
+		</Style>
+	</Window.Styles>
 	<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
 		<Panel>
 			<views:SettingsView 
@@ -24,8 +29,17 @@
 					DataContext="{Binding BoardVm}"/>
 			</Border>
 		</Panel>
-		<StackPanel Orientation="Horizontal">
-			<Button Content="Stop" Command="{Binding StopCommand}" />
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<StackPanel Spacing="20"
+			            Orientation="Horizontal" 
+			            DockPanel.Dock="Bottom">
+				<Button Classes="button" Content="▶️" 
+				        Command="{Binding ConnectCommand}"
+				        CommandParameter="{Binding SettingsVm}" />
+				<Button Classes="button" Content="⏹"
+				        Command="{Binding StopCommand}"
+				        IsEnabled="{Binding !IsConnectionNeeds}" />
+			</StackPanel>
 		</StackPanel>
 	</StackPanel>
 </Window>

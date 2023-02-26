@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Grpc.Net.Client;
 using System.Collections.Concurrent;
 using System.Timers;
@@ -13,12 +15,18 @@ namespace RectangularsMoving.ClientShared.ViewModels
         private object _incomingRectsLock = new object();
         private System.Timers.Timer _timer;
         private bool _isReceivingAllowed = false;
+        private readonly RectMoving.RectMovingClient _client;
+        private Metadata _headers;
         
         [ObservableProperty] private bool _isConnectionNeeds;
         [ObservableProperty] private SettingsViewModel _settingsVm;
         [ObservableProperty] private BoardViewModel _boardVm;
 
-        public MainWindowViewModel(BoardViewModel boardVm) {
+        public MainWindowViewModel(BoardViewModel boardVm, RectMoving.RectMovingClient client) {
+            _client = client;
+            _headers = new Metadata();
+            _headers.Add("ClientId", Guid.NewGuid().ToString());
+
             _boardVm = boardVm;
             IsConnectionNeeds = true;
             SettingsVm = new SettingsViewModel();
@@ -59,8 +67,6 @@ namespace RectangularsMoving.ClientShared.ViewModels
             }
             BoardVm.SetBoardsProperties(vm.BoardWidth, vm.BoardHeight);
             try {
-                var channel = GrpcChannel.ForAddress("https://localhost:7005");
-                var client = new RectMoving.RectMovingClient(channel);
                 var request = new ConfigRequest();
                 request.TasksCount = vm.TaskCount;
                 request.TaskDelay = vm.TaskDelay;
@@ -68,7 +74,7 @@ namespace RectangularsMoving.ClientShared.ViewModels
                     Height = vm.BoardHeight, Width = vm.BoardWidth, RectsCount = vm.RectCount
                 };
                 _isReceivingAllowed = true;
-                using var call = client.SetConfig(request);
+                using var call = _client.StartAsync(request, _headers);
                 while (_isReceivingAllowed && await call.ResponseStream.MoveNext(CancellationToken.None)) {
                     Task.Run(() => {
                         if (_timer.Enabled)
@@ -76,7 +82,6 @@ namespace RectangularsMoving.ClientShared.ViewModels
                         else BoardVm.SetRectCoords(call.ResponseStream.Current);
                     });
                 }
-                channel.Dispose();
             }
             catch (Exception e) {
                 Console.WriteLine(e);
@@ -85,7 +90,9 @@ namespace RectangularsMoving.ClientShared.ViewModels
         
         [RelayCommand]
         private void Stop() {
+            _client.Stop(new Empty(), _headers);
             _isReceivingAllowed = false;
+            BoardVm.Rects.Clear();
             IsConnectionNeeds = true;
         }
     }

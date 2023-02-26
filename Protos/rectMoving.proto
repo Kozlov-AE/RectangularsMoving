@@ -2,17 +2,23 @@ syntax = "proto3";
 
 import "board.proto";
 import "rect.proto";
+import "google/protobuf/empty.proto";
 
 option csharp_namespace = "RectangularsMoving.Protos";
 
 package rectMoving;
 
 service RectMoving {
-  rpc SetConfig (ConfigRequest) returns (stream rect.Rect);
+  rpc StartAsync (ConfigRequest) returns (stream rect.Rect);
+  rpc Stop (google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
 message ConfigRequest {
   board.Board Board = 1;
   int32 TasksCount = 2;
   int32 TaskDelay = 3;
+}
+
+message ClientId {
+  string Id = 1;
 }
