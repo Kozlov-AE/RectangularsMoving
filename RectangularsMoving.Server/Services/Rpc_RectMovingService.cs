@@ -58,7 +58,7 @@ namespace RectangularsMoving.Server.Services {
                             await semaphore.WaitAsync();
                             try {
                                 lock (_collectionLock) {
-                                    _movingService.MoveRect(ref item, 30, request.Board.Height, request.Board.Width);
+                                    _movingService.MoveRect(ref item, (byte)request.MaxMovingDistance, request.Board.Height, request.Board.Width);
                                     responseStream.WriteAsync(item.Map());
                                 }
 

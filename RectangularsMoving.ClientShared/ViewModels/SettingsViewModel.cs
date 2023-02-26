@@ -8,12 +8,14 @@ namespace RectangularsMoving.ClientShared.ViewModels {
         [ObservableProperty] private int _taskCount;
         [ObservableProperty] private int _taskDelay;
         [ObservableProperty] private int _localBufferInterval;
+        [ObservableProperty] private int _maxMovingDistance;
 
         public SettingsViewModel() {
             RectCount = 100;
             BoardHeight = 500;
             BoardWidth = 500;
             TaskCount = 100;
+            MaxMovingDistance = 5;
             LocalBufferInterval = 0;
             TaskDelay = 0;
         }

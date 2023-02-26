@@ -40,6 +40,10 @@
             <NumericUpDown Minimum="1" Value="{Binding TaskCount}" />
         </StackPanel>
         <StackPanel Classes="horizValueBlock">
+            <TextBlock Text="Max moving distance" />
+            <NumericUpDown Minimum="1" Maximum="255" Value="{Binding MaxMovingDistance}" />
+        </StackPanel>
+        <StackPanel Classes="horizValueBlock">
             <TextBlock Text="Local buffer optimization, set render interval" />
             <NumericUpDown Minimum="0" Value="{Binding LocalBufferInterval}" />
         </StackPanel>

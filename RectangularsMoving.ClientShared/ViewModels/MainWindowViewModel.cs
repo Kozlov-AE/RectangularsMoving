@@ -70,6 +70,7 @@ namespace RectangularsMoving.ClientShared.ViewModels
                 var request = new ConfigRequest();
                 request.TasksCount = vm.TaskCount;
                 request.TaskDelay = vm.TaskDelay;
+                request.MaxMovingDistance = vm.MaxMovingDistance;
                 request.Board = new Board() {
                     Height = vm.BoardHeight, Width = vm.BoardWidth, RectsCount = vm.RectCount
                 };

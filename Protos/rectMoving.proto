@@ -17,6 +17,7 @@ message ConfigRequest {
   board.Board Board = 1;
   int32 TasksCount = 2;
   int32 TaskDelay = 3;
+  int32 MaxMovingDistance = 4;
 }
 
 message ClientId {
