@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using RectangularsMoving.Shared.Protos;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using RectangularsMoving.Protos;
 
 namespace RectangularsMoving.ClientShared.ViewModels {
     public partial class BoardViewModel : ObservableObject {

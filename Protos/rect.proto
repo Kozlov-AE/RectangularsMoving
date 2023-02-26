@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "RectangularsMoving.Shared.Protos";
+option csharp_namespace = "RectangularsMoving.Protos";
 
 package rect;
 

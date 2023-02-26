@@ -3,7 +3,7 @@ syntax = "proto3";
 import "board.proto";
 import "rect.proto";
 
-option csharp_namespace = "RectangularsMoving.Shared.Protos";
+option csharp_namespace = "RectangularsMoving.Protos";
 
 package rectMoving;
 

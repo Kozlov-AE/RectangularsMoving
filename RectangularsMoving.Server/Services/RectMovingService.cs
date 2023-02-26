@@ -1,7 +1,6 @@
 using Grpc.Core;
-using Microsoft.VisualBasic;
+using RectangularsMoving.Protos;
 using RectangularsMoving.Server.Models;
-using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
     public class RectMovingService : RectMoving.RectMovingBase {
@@ -74,5 +73,6 @@ namespace RectangularsMoving.Server.Services {
                 semaphore.Release();
             }
         }
+        
     }
 }

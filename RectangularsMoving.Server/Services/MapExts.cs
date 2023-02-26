@@ -1,5 +1,5 @@
+using RectangularsMoving.Protos;
 using RectangularsMoving.Server.Models;
-using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
     public static class MapExts {

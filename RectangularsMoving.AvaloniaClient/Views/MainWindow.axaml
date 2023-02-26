@@ -14,13 +14,18 @@
 	<Design.DataContext>
 		<viewModels:MainWindowViewModel/>
 	</Design.DataContext>
-	<Panel HorizontalAlignment="Center" VerticalAlignment="Center">
-		<views:SettingsView 
-			IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
-			DataContext="{Binding SettingsVm}"/>
-		<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
-			<views:BoardView
-				DataContext="{Binding BoardVm}"/>
-		</Border>
-	</Panel>
+	<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+		<Panel>
+			<views:SettingsView 
+				IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
+				DataContext="{Binding SettingsVm}"/>
+			<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
+				<views:BoardView
+					DataContext="{Binding BoardVm}"/>
+			</Border>
+		</Panel>
+		<StackPanel Orientation="Horizontal">
+			<Button Content="Stop" Command="{Binding StopCommand}" />
+		</StackPanel>
+	</StackPanel>
 </Window>

@@ -1,5 +1,4 @@
 using RectangularsMoving.Server.Enums;
-using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Models {
     public class RectWithDirection {

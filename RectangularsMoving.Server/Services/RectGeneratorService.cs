@@ -1,6 +1,5 @@
 using RectangularsMoving.Server.Enums;
 using RectangularsMoving.Server.Models;
-using RectangularsMoving.Shared.Protos;
 
 namespace RectangularsMoving.Server.Services {
     public class RectGeneratorService {

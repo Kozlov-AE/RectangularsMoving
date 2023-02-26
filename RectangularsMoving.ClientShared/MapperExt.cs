@@ -1,5 +1,5 @@
 using RectangularsMoving.ClientShared.ViewModels;
-using RectangularsMoving.Shared.Protos;
+using RectangularsMoving.Protos;
 
 namespace RectangularsMoving.ClientShared {
     public static class MapperExt {
