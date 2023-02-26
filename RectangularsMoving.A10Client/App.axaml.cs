@@ -26,11 +26,10 @@ namespace RectangularsMoving.A10Client {
         }
         
         private void LoadServices() {
-            var services = new ServiceCollection();
+            var services = SharedServices.GerServices();
+                
             try {
                 services.AddSingleton<IAppManager, AppManager>();
-                services.AddSingleton<BoardViewModel>();
-                services.AddSingleton<MainWindowViewModel>();
 
                 _services = services.BuildServiceProvider();
             }

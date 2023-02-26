@@ -87,13 +87,19 @@ namespace RectangularsMoving.ClientShared.ViewModels
                 Console.WriteLine(e);
             }
         }
-        
         [RelayCommand]
         private void Stop() {
-            _client.Stop(new Empty(), _headers);
-            _isReceivingAllowed = false;
-            BoardVm.Rects.Clear();
-            IsConnectionNeeds = true;
+            try{
+                _client.Stop(new Empty(), _headers);
+            }
+            catch(Exception e){
+                    Console.WriteLine(e);
+            }
+            finally{
+                _isReceivingAllowed = false;
+                BoardVm.Rects.Clear();
+                IsConnectionNeeds = true;
+            }
         }
     }
 }

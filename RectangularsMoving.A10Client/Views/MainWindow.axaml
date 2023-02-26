@@ -13,13 +13,29 @@
 	<Design.DataContext>
 		<viewModels:MainWindowViewModel/>
 	</Design.DataContext>
-	<Panel HorizontalAlignment="Center" VerticalAlignment="Center">
-		<views:SettingsView 
-			IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
-			DataContext="{Binding SettingsVm}"/>
-		<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
-			<views:BoardView
-				DataContext="{Binding BoardVm}"/>
-		</Border>
-	</Panel>
+	<Window.Styles>
+		<Style Selector="Button.button">
+			<Setter Property="Height" Value="40" />
+			<Setter Property="Width" Value="40" />
+		</Style>
+	</Window.Styles>
+	<StackPanel>
+		<Panel HorizontalAlignment="Center" VerticalAlignment="Center">
+			<views:SettingsView 
+				IsVisible="{Binding  $parent[Window].DataContext.IsConnectionNeeds}"
+				DataContext="{Binding SettingsVm}"/>
+			<Border BorderThickness="3" BorderBrush="Red" IsVisible="{Binding !$parent[Window].DataContext.IsConnectionNeeds}">
+				<views:BoardView DataContext="{Binding BoardVm}"/>
+			</Border>
+		</Panel>
+		<StackPanel Spacing="20"
+				Orientation="Horizontal"
+				DockPanel.Dock="Bottom">
+			<Button Classes="button" Content="▶️"
+					Command="{Binding ConnectCommand}"
+					CommandParameter="{Binding SettingsVm}" />
+			<Button Classes="button" Content="⏹"
+					Command="{Binding StopCommand}" IsEnabled="{Binding !IsConnectionNeeds}" />
+		</StackPanel>
+	</StackPanel>
 </Window>
