@@ -10,8 +10,7 @@ namespace RectangularsMoving.Server.Services {
         private readonly ClientsWorkHolder _workHolder;
         private readonly ILogger<Rpc_RectMovingService> _logger;
         private List<RectWithDirection> _collection;
-        private readonly object _collectionLock = new object();
-        private readonly object _sendMessageLock = new object();
+        private readonly object _rectLock = new object();
         public Rpc_RectMovingService(RectGeneratorService generatorService, 
             MovingService movingService, 
             ILogger<Rpc_RectMovingService> logger, 
@@ -57,7 +56,7 @@ namespace RectangularsMoving.Server.Services {
                         tasks.Add(Task.Run(async () => {
                             await semaphore.WaitAsync();
                             try {
-                                lock (_collectionLock) {
+                                lock (_rectLock) {
                                     _movingService.MoveRect(ref item, (byte)request.MaxMovingDistance, request.Board.Height, request.Board.Width);
                                     responseStream.WriteAsync(item.Map());
                                 }

@@ -17,7 +17,6 @@ namespace RectangularsMoving.Server.Services {
             if (!_clientWorks.TryRemove(id, out _)) {
                 _clientWorks.AddOrUpdate(id, false, (s, b) => false);
             }
-            
         }
     }
 }
