@@ -77,7 +77,7 @@ namespace RectangularsMoving.ClientShared.ViewModels
                 _isReceivingAllowed = true;
                 using var call = _client.StartAsync(request, _headers);
                 while (_isReceivingAllowed && await call.ResponseStream.MoveNext(CancellationToken.None)) {
-                    Task.Run(() => {
+                    await Task.Run(() => {
                         if (_timer.Enabled)
                             AddRect(call.ResponseStream.Current);
                         else BoardVm.SetRectCoords(call.ResponseStream.Current);
