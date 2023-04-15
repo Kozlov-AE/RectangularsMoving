@@ -7,7 +7,7 @@
         xmlns:convert="clr-namespace:RectangularsMoving.WpfClient.Converters"
         xmlns:vm="clr-namespace:RectangularsMoving.ClientShared.ViewModels;assembly=RectangularsMoving.ClientShared"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="RectangularsMoving.WpfClient" SizeToContent="WidthAndHeight">
 	<Window.Resources>
 		<convert:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		<convert:NegativeBoolToVisibilityConverter x:Key="NegativeBoolToVisibilityConverter" />
@@ -21,6 +21,7 @@
 					<Setter Property="Margin" Value="0 7" />
 				</Style>
 			</Style.Resources>
+			<Setter Property="Margin" Value="15" />
 			<Setter Property="Orientation" Value="Vertical" />
 			<Setter Property="HorizontalAlignment" Value="Center" />
 			<Setter Property="VerticalAlignment" Value="Center" />
