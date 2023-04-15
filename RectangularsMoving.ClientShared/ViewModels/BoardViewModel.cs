@@ -30,7 +30,10 @@ namespace RectangularsMoving.ClientShared.ViewModels {
                     if (currentRect == null) {
                         var color = $"#{Random.Shared.Next(0x808080) & 0x8A8A8A:X6}";
                         var newRect = rect.Map(color);
-                        Rects.Add(newRect);
+                        _appManager.RunInUiThreadAsync(() => {
+                            Rects.Add(newRect);
+                            return Task.CompletedTask;
+                        });
                     }
                     else {
                             _appManager.RunInUiThreadAsync(() => {

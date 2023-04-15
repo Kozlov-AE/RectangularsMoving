@@ -1,0 +1,52 @@
+﻿<Window x:Class="RectangularsMoving.WpfClient.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RectangularsMoving.WpfClient.Views"
+        xmlns:convert="clr-namespace:RectangularsMoving.WpfClient.Converters"
+        xmlns:vm="clr-namespace:RectangularsMoving.ClientShared.ViewModels;assembly=RectangularsMoving.ClientShared"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+	<Window.Resources>
+		<convert:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<convert:NegativeBoolToVisibilityConverter x:Key="NegativeBoolToVisibilityConverter" />
+		<Style x:Key="Button" TargetType="{x:Type Button}">
+			<Setter Property="Height" Value="50" />
+			<Setter Property="Width" Value="50" />
+		</Style>
+		<Style x:Key="MainStPanel" TargetType="StackPanel">
+			<Style.Resources>
+				<Style TargetType="{x:Type Control}">
+					<Setter Property="Margin" Value="0 7" />
+				</Style>
+			</Style.Resources>
+			<Setter Property="Orientation" Value="Vertical" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+	</Window.Resources>
+
+	<StackPanel Style="{StaticResource MainStPanel}">
+		<Grid>
+			<local:SettingsView 
+				DataContext="{Binding SettingsVm}"
+				Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
+								Path=DataContext.IsConnectionNeeds, 
+								Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Border BorderThickness="3" 
+			        BorderBrush="Red" 
+			        Visibility="{Binding IsConnectionNeeds, 
+								Converter={StaticResource NegativeBoolToVisibilityConverter}}">
+				<local:BoardView DataContext="{Binding BoardVm}"/>
+			</Border>
+		</Grid>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Content="▶️" 
+			      Command="{Binding ConnectCommand}"
+			      CommandParameter="{Binding SettingsVm}" />
+			<Button Content="⏹"
+			      Command="{Binding StopCommand}" />
+		</StackPanel>
+	</StackPanel>
+</Window>

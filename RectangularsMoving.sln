@@ -14,9 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{9E758A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RectangularsMoving.AvaloniaClient", "RectangularsMoving.AvaloniaClient\RectangularsMoving.AvaloniaClient.csproj", "{202CA99C-33ED-47AA-8427-F5DBC89B1A46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectangularsMoving.ClientShared", "RectangularsMoving.ClientShared\RectangularsMoving.ClientShared.csproj", "{8ECA48A8-70C2-471B-9F0C-81B055C1AA97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RectangularsMoving.ClientShared", "RectangularsMoving.ClientShared\RectangularsMoving.ClientShared.csproj", "{8ECA48A8-70C2-471B-9F0C-81B055C1AA97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectangularsMoving.A10Client", "RectangularsMoving.A10Client\RectangularsMoving.A10Client.csproj", "{E36D6421-99AB-4170-8749-E26319EFD283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RectangularsMoving.A10Client", "RectangularsMoving.A10Client\RectangularsMoving.A10Client.csproj", "{E36D6421-99AB-4170-8749-E26319EFD283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectangularsMoving.WpfClient", "RectangularsMoving.WpfClient\RectangularsMoving.WpfClient.csproj", "{4CBE9D22-796F-4AAA-B0F8-92FC08933132}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{E36D6421-99AB-4170-8749-E26319EFD283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36D6421-99AB-4170-8749-E26319EFD283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36D6421-99AB-4170-8749-E26319EFD283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CBE9D22-796F-4AAA-B0F8-92FC08933132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CBE9D22-796F-4AAA-B0F8-92FC08933132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CBE9D22-796F-4AAA-B0F8-92FC08933132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CBE9D22-796F-4AAA-B0F8-92FC08933132}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
