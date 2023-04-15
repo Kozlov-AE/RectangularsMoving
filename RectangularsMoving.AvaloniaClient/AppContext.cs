@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Threading;
 using RectangularsMoving.ClientShared;
 using System;
