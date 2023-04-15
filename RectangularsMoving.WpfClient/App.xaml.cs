@@ -30,7 +30,7 @@ namespace RectangularsMoving.WpfClient {
         private void ConfigureServices() {
             var services = SharedServices.GerServices();
             try {
-                services.AddSingleton<IAppManager, AppManager>();
+                services.AddSingleton<IAppContext, AppContext>();
                 Services = services.BuildServiceProvider();
             }
             catch (Exception e) {

@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace RectangularsMoving.AvaloniaClient {
-    public class AppManager :IAppManager {
+    public class AppContext :IAppContext {
         public async Task RunInUiThreadAsync(Func<Task> action) {
             // Avalonia 11 allowed change binded parameters from different threads.
             // But I've found not expected behavior -

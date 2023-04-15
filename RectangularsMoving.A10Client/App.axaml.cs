@@ -30,7 +30,7 @@ namespace RectangularsMoving.A10Client {
             var services = SharedServices.GerServices();
                 
             try {
-                services.AddSingleton<IAppManager, AppManager>();
+                services.AddSingleton<IAppContext, AppContext>();
 
                 _services = services.BuildServiceProvider();
             }

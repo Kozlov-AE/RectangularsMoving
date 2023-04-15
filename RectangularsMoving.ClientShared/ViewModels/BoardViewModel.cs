@@ -5,7 +5,7 @@ using RectangularsMoving.Protos;
 
 namespace RectangularsMoving.ClientShared.ViewModels {
     public partial class BoardViewModel : ObservableObject {
-        private readonly IAppManager _appManager;
+        private readonly IAppContext _appContext;
         
         private readonly object _rectsLocker;
         [ObservableProperty] private int _width;
@@ -13,8 +13,8 @@ namespace RectangularsMoving.ClientShared.ViewModels {
         [ObservableProperty] private ObservableCollection<RectViewModel> _rects;
 
 
-        public BoardViewModel(IAppManager appManager) {
-            _appManager = appManager;
+        public BoardViewModel(IAppContext appContext) {
+            _appContext = appContext;
             _rectsLocker = new object();
             Rects = new ObservableCollection<RectViewModel>();
         }
@@ -30,13 +30,13 @@ namespace RectangularsMoving.ClientShared.ViewModels {
                     if (currentRect == null) {
                         var color = $"#{Random.Shared.Next(0x808080) & 0x8A8A8A:X6}";
                         var newRect = rect.Map(color);
-                        _appManager.RunInUiThreadAsync(() => {
+                        _appContext.RunInUiThreadAsync(() => {
                             Rects.Add(newRect);
                             return Task.CompletedTask;
                         });
                     }
                     else {
-                            _appManager.RunInUiThreadAsync(() => {
+                            _appContext.RunInUiThreadAsync(() => {
                                 currentRect.SetCoordinates(rect.X, rect.Y);
                                 return Task.CompletedTask;
                         });

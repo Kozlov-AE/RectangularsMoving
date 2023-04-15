@@ -38,7 +38,7 @@ namespace RectangularsMoving.AvaloniaClient
         private void LoadServices() {
             var services = SharedServices.GerServices();
             try {
-                services.AddSingleton<IAppManager, AppManager>();
+                services.AddSingleton<IAppContext, AppContext>();
 
                 Services = services.BuildServiceProvider();
             }
