@@ -9,14 +9,14 @@
 1. Папка `Protos` - Папка для хранения Protobuf файлов
 2. `RectangularsMoving.Server` - Проект сервера net7
 3. `RectangularsMoving.ClientShared` - Общий проект для клиентских приложений (вьюмодели, маппинг, общие DI зависимости)
-4. `RectangularsMoving.AvaloniaClient` - Клиент на фрэймворке Avalonia-11.preview-5 (Основной клиент)
+4. `RectangularsMoving.AvaloniaClient` - Клиент на фрэймворке Avalonia-11.preview-6 (Основной клиент)
 5. `RectangularsMoving.A10Client` - Клиент на фрэймворке Avalonia-10.18 (Дополнительный клиент для стравнения скорости работы UI)
+6. `RectangularsMoving.WpfClient` - Клиент на фрэймворке WPF
 
 ## Порядок запуска из MS Visual studio 2022
 **Внимание! Запуск проектов осуществляется в режиме без отладки**
 1. Запустить проект сервера в режиме **https**
-2. Запустить проект клиента (можно оба по очереди, будут работать вместе)
-  Внимание клиент Avalonia 11 примет цветовую тему вашей ОС (Dark/light).
+2. Запустить проект клиента (можно все 3, будут работать параллельно).
   
 ## Описание интерфейса клиентов
 ![UI](https://user-images.githubusercontent.com/53231526/221420833-e3c42625-3b6a-4cb1-bb97-259d4a380ccb.png)
